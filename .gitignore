@@ -13,9 +13,7 @@ storage/*.key
 .env.*.php
 .env.php
 .env
-.idea/modules.xml
-.idea/workspace.xml
-.idea/zadanieViola.iml
+.idea/
 
 Homestead.yaml
 Homestead.json
