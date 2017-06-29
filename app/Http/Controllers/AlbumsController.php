@@ -12,7 +12,7 @@ class AlbumsController extends Controller
 {
     public function index()
     {
-        $albums=Album::latest()->paginate(2);
+        $albums=Album::latest()->paginate(3);
         return view('albums.index',compact('albums'));
     }
 
@@ -37,7 +37,7 @@ class AlbumsController extends Controller
         $album->save();
         $categoryIds=$request->input('CategoryList');
         $album->categories()->attach($categoryIds);
-        Session::flash('video_created','Twój film album dodany');
+        Session::flash('album_created','Nowy album został dodany');
         return redirect('albums');
     }
     public function edit(int $id)

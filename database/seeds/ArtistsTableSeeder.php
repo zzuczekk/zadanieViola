@@ -17,8 +17,7 @@ class ArtistsTableSeeder extends Seeder
         Artist::create(['name'=>'Kazik']);
         Artist::create(['name'=>'LaoChe']);
         Artist::create(['name'=>'Luxtorpeda']);
-        Artist::create(['name'=>'T Love']);
-        Artist::create(['name'=>'Kult']);
+        Artist::create(['name'=>'T-Love']);
         Artist::create(['name'=>'Perfect']);
     }
 }
