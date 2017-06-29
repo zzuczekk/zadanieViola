@@ -12,5 +12,4 @@
 */
 
 Route::get('/', "AlbumsController@index");
-Route::get('albums', "AlbumsController@index");
-Route::get('albums/{id}', "AlbumsController@show");
+Route::resource('albums', "AlbumsController");

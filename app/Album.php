@@ -6,15 +6,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class Album extends Model
 {
-    protected $fillable=['name','description','release_date', 'url'];
+    protected $fillable=['name','description','release_date', 'url', 'artist_id'];
+    protected $dateFormat = 'Y-m-d';
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function artist()
     {
-        return $this->belongsTo(Artist::class);
+        return $this->belongsTo(Artist::class, 'artist_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function categories()
     {
         return $this->belongsToMany('App\Category','category_album');
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryListAttribute()
+    {
+        return $this->categories->pluck('id')->all();
+    }
+
 }
