@@ -14,11 +14,12 @@ class CreateCategoryAlbumTable extends Migration
     public function up()
     {
         Schema::create('category_album', function (Blueprint $table) {
-            $table->integer('album_id')->unsigned();
             $table->integer('category_id')->unsigned();
+            $table->integer('album_id')->unsigned();
 
-            $table->foreign('album_id')->references('id')->on('albums');
-            $table->foreign('category_id')->references('id')->on('category');
+
+            $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
 
         });
     }
