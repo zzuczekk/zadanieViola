@@ -47,6 +47,9 @@
                 <li>
                     <a href="{{url('albums/create')}}">Dodawanie</a>
                 </li>
+                <li>
+                    <a href="{{url('albums/create')}}">Logowanie</a>
+                </li>
 
             </ul>
         </div>

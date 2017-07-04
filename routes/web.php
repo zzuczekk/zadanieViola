@@ -13,3 +13,7 @@
 
 Route::get('/', "AlbumsController@index");
 Route::resource('albums', "AlbumsController");
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
