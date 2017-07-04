@@ -33,10 +33,8 @@ class AlbumsController extends Controller
 
     public function store(AlbumRequest $request)
     {
-        $album=new Album($request->all());
-        $album->save();
-        $categoryIds=$request->input('CategoryList');
-        $album->categories()->attach($categoryIds);
+        $album=Album::create($request->all());
+        $album->categories()->attach($request->input('CategoryList'));
         Session::flash('album_created','Nowy album został dodany');
         return redirect('albums');
     }
@@ -52,8 +50,7 @@ class AlbumsController extends Controller
     {
         $album=Album::findOrFail($id);
         $album->update($request->all());
-        $categoryIds=$request->input('CategoryList');
-        $album->categories()->sync($categoryIds);
+        $album->categories()->sync($request->input('CategoryList'));
         return redirect('albums/'.$id);
     }
 

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Shop Item - Start Bootstrap Template</title>
+    <title>Album - CRUD - Zuczek</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{URL::asset('css/bootstrap.min.css')}}" rel="stylesheet">
