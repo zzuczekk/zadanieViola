@@ -28,13 +28,11 @@ class AlbumsController extends Controller
         $categories=Category::pluck('name','id');
         $artists=Artist::pluck('name','id');
         return view('albums.create',compact('categories','artists'));
-
     }
 
     public function store(AlbumRequest $request)
     {
-        $album=Album::create($request->all());
-        $album->categories()->attach($request->input('CategoryList'));
+        Album::create($request->all())->categories()->attach($request->input('CategoryList'));
         Session::flash('album_created','Nowy album został dodany');
         return redirect('albums');
     }
@@ -56,7 +54,7 @@ class AlbumsController extends Controller
 
     public function destroy(int $id)
     {
-        Album::findOrFail($id)->delete();
+        Album::destroy($id);
         return redirect('albums');
     }
 }
