@@ -13,7 +13,9 @@
 
 Route::get('/', "AlbumsController@index");
 Route::resource('albums', "AlbumsController");
-
+Route::get('/users/index', "UsersController@index");
+Route::post('/users/changestatus', "UsersController@changeStatus");
+Route::get('/users/changestatus', "UsersController@changeStatus");
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

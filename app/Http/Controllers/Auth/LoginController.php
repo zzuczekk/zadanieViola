@@ -18,7 +18,6 @@ class LoginController extends Controller
     |
     */
 
-
     use AuthenticatesUsers;
     protected $username = 'username';
     /**
@@ -36,6 +35,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('checkstatus')->only('login');
     }
 
     public function username()

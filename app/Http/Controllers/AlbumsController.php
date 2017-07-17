@@ -6,6 +6,7 @@ use App\Artist;
 use App\Http\Requests\AlbumRequest;
 use App\Album;
 use App\Category;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class AlbumsController extends Controller
@@ -38,7 +39,7 @@ class AlbumsController extends Controller
 
     public function store(AlbumRequest $request)
     {
-        Album::create($request->all())->categories()->attach($request->input('CategoryList'));
+        Album::create($request->all()+['user_id'=>Auth::user()['id']])->categories()->attach($request->input('CategoryList'));
         Session::flash('album_created','Nowy album został dodany');
         return redirect('albums');
     }

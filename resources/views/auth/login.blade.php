@@ -7,6 +7,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Logowanie</div>
                 <div class="panel-body">
+                    @if(Session::has('erro_login'))
+                        <div class="alert alert-danger card">
+                            {{Session::get('erro_login')}}
+                        </div>
+                    @endif
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 

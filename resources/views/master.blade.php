@@ -47,13 +47,18 @@
                 <li>
                     <a href="{{url('albums/create')}}">Dodawanie</a>
                 </li>
+                @if (!Auth::guest())
+                    @if (Auth::user()->type==2)
+                        <li><a href="{{url('users/index')}}">Użytkownicy</a></li>
+                    @endif
+                @endif
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li><a href="{{ route('login') }}">Logowanie</a></li>
-                    <li><a href="{{ route('register') }}">Rejestracja</a></li>
+                    <li><a href="{{ url('login') }}">Logowanie</a></li>
+                    <li><a href="{{ url('register') }}">Rejestracja</a></li>
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -110,6 +115,7 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+@yield('scripts')
 
 </body>
 

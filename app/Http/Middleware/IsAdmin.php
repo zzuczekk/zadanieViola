@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Album;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class IsOwner
+class IsAdmin
 {
     /**
      * Handle an incoming request.
@@ -17,18 +16,11 @@ class IsOwner
      */
     public function handle($request, Closure $next)
     {
-
-        if(Auth::check() || Auth::user()['type']==2)
+        if(Auth::check() && Auth::user()->type==2)
         {
-            $album=Album::find($request->album);
-            if($album!=null && $album->user_id==Auth::user()['id'])
-            {
-                return $next($request);
-            }
-            return redirect('/');
-
+            return $next($request);
         }
-        return redirect('login');
+        return redirect('/');
 
     }
 }
