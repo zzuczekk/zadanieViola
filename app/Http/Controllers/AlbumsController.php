@@ -10,6 +10,12 @@ use Session;
 
 class AlbumsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('owner', ['only' => ['update', 'edit', 'destroy']]);
+        $this->middleware('auth', ['only' => ['create','store']]);
+    }
+
     public function index()
     {
         $albums=Album::latest()->paginate(3);

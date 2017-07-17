@@ -11,14 +11,14 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('nick') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Nick</label>
+                            <label for="name" class="col-md-4 control-label">Nazwa użytkownika</label>
 
                             <div class="col-md-6">
-                                <input id="nick" type="text" class="form-control" name="name" value="{{ old('nick') }}" required autofocus>
+                                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
 
-                                @if ($errors->has('nick'))
+                                @if ($errors->has('username'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('nick') }}</strong>
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                 @endif
                             </div>

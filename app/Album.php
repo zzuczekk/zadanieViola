@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Album extends Model
 {
-    protected $fillable=['name','description','release_date', 'url', 'artist_id'];
-    protected $dateFormat = 'Y-m-d';
+    protected $fillable=['name','description','release_date', 'url'];
+    //protected $dateFormat = 'Y-m-d';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -36,6 +36,11 @@ class Album extends Model
     public function scopeLatest($query)
     {
         return $query->orderBy('created_at', 'desc')->orderby('id','desc');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class ,'user_id');
     }
 
 }
