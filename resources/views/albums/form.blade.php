@@ -26,11 +26,14 @@
 </div>
 
 <div class="form-group">
-    <div class="col-md-4 control-label">{!! Form::label('url','URL')!!}</div>
+    <div class="col-md-4 control-label">{!! Form::label('coverLabel','Okładka')!!}</div>
     <div class="col-md-6">
-        {!! Form::text('url',null,['class'=>'form-control'])!!}
+        {!! Form::label('cover','Wybierz plik',['class'=>'btn btn-primary','for'=>'cover'])!!}
+        {!! Form::file('cover',['id'=>'cover','accept'=>'image/*','style'=>'display:none', 'enctype'=>'multipart/form-data'])!!}
+        {!! Form::label('fileName','Wybierz plik',['id'=>'fileName'])!!}
     </div>
 </div>
+
 
 <div class="form-group">
     <div class="col-md-4 control-label">{!! Form::label('CategoryList','Kategorie')!!}</div>
@@ -44,3 +47,15 @@
         {!! Form::submit($buttonText,['class'=>'btn btn-primary'])!!}
     </div>
 </div>
+
+@section('scripts')
+    <script>
+        $(function() {
+            $("input[name='cover").change(function () {
+                var file=$(this).val();
+                file=file.replace(/^.*[\\\/]/, '');
+                $("#fileName").html(file);
+            });
+        });
+    </script>
+@endsection

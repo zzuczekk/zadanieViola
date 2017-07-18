@@ -26,10 +26,10 @@ class AlbumRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'url' => 'required',
             'release_date' => 'required',
             'artist_id' => 'required',
-            'CategoryList' => 'required'
+            'CategoryList' => 'required',
+            'cover'=>'required'
 
         ];
     }
@@ -39,7 +39,7 @@ class AlbumRequest extends FormRequest
         return [
             'name.required' => 'Pole nazwa jest wymagane!',
             'description.required' => 'Pole opis jest wymagane!',
-            'url.required' => 'Pole url jest wymagane!',
+            'cover.required' => 'Okładka jest wymagana!',
             'release_date.required' => 'Pole data premiery jest wymagane!',
             'artist_id.required' => 'Pole artysta jest wymagane!',
             'CategoryList.required' => 'Wybierz przynajmniej jedną kategorie!',

@@ -2,9 +2,9 @@
 @section('content')
     <div class="col-md-12">
         <h3>Dodawanie</h3>
-        @include('albums.errors')
-        {!! Form::open(['url'=>'albums', 'class'=>'form-horizontal']) !!}
-            @include('albums.form',['buttonText'=>'Dodaj video'])
+        @include('errors')
+        {!! Form::open(['url'=>'albums', 'class'=>'form-horizontal','files'=>'true']) !!}
+            @include('albums.form',['buttonText'=>'Dodaj album'])
         {!! Form::close()!!}
     </div>
 @endsection

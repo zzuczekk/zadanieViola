@@ -14,7 +14,7 @@
         </tr>
         @foreach($users as $user)
             <tr>
-                <td>{{$user->username}}</td>
+                <td><a href="{{ url('users',$user->id) }}">{{$user->username}}</a></td>
                 <td>{{$user->name}}</td>
                 <td>{{$user->email}}</td>
                 <td>
@@ -36,45 +36,16 @@
 
 @section('scripts')
     <script>
-
         $(function() {
-
-
-            $(":checkbox[name='valide']").change(function() {
-                var cases = $(":checkbox[name='valide'][value='" + this.value + "']");
-                cases.prop('checked', this.checked);
-                cases.parents('.panel-heading').toggleClass('border-red');
-                cases.hide().parent().append('<i class="fa fa-refresh fa-spin"></i>');
-                var token = $('input[name="_token"]').val();
-                alert('{!! url('uservalid') !!}' + '/' + this.value+ "     "+token);
-                $.ajax({
-                    url: '{!! url('uservalid') !!}' + '/' + this.value,
-                    type: 'PUT',
-                    data: "valid=" + this.checked + "&_token=" + token
-                })
-                    .done(function() {
-                        $('.fa-spin').remove();
-                        $('input[type="checkbox"]:hidden').show();
-                    })
-                    .fail(function() {
-                        $('.fa-spin').remove();
-                        var cases = $('input[type="checkbox"]:hidden');
-                        cases.parents('.panel-heading').toggleClass('border-red');
-                        cases.show().prop('checked', cases.is(':checked') ? null:'checked');
-                        alert('{{ trans('back/comments.fail') }}');
-                    });
-            });
             $(".statusChB").change(function () {
                 var input=this;
                 var token = $("input[name='_token']").val();
-
                 var user=$(this).val();
                 $.ajax({
                     url: '{!! url('users/changestatus') !!}',
                     type: 'POST',
                     dataType: 'json',
-                    data: {status:this.checked,_token:token, user_id:user},
-                    //dataType:'json'
+                    data: {status:this.checked,_token:token, user_id:user}
                 })
                     .done(function (response) {
                         if(response==false)
@@ -89,8 +60,5 @@
                     })
             });
         });
-
-
-
     </script>
 @endsection

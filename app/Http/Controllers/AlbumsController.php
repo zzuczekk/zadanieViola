@@ -7,6 +7,7 @@ use App\Http\Requests\AlbumRequest;
 use App\Album;
 use App\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Session;
 
 class AlbumsController extends Controller
@@ -19,7 +20,7 @@ class AlbumsController extends Controller
 
     public function index()
     {
-        $albums=Album::latest()->paginate(3);
+        $albums=Album::latest(3);
         return view('albums.index',compact('albums'));
     }
 
@@ -39,8 +40,13 @@ class AlbumsController extends Controller
 
     public function store(AlbumRequest $request)
     {
-        Album::create($request->all()+['user_id'=>Auth::user()['id']])->categories()->attach($request->input('CategoryList'));
-        Session::flash('album_created','Nowy album został dodany');
+        if ($request->hasFile('cover')) {
+            $coverFileName=Storage::putFile('covers',$request->file('cover'));
+            Album::create($request->all() + ['user_id' => Auth::user()['id'],'cover'=>$coverFileName] )->categories()->attach($request->input('CategoryList'));
+            Session::flash('album_created', 'Album został dodany');
+            return redirect('albums');
+        }
+        Session::flash('album_created', 'Chuja');
         return redirect('albums');
     }
     public function edit(int $id)

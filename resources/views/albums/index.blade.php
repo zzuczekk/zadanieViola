@@ -1,11 +1,7 @@
 @extends('master')
 @section('content')
     <h2>Albumy</h2>
-    @if(Session::has('album_created'))
-        <div class="alert alert-success card">
-            {{Session::get('album_created')}}
-        </div>
-    @endif
+    @include('messages',['name'=>'album_created'])
     <table class="table">
         <tr>
             <th>Nazwa</th>

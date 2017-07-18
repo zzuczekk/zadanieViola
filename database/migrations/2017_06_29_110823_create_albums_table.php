@@ -18,7 +18,7 @@ class CreateAlbumsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->date('release_date');
-            $table->string('url');
+            $table->string('cover');
             $table->integer('artist_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();

@@ -15,7 +15,11 @@ Route::get('/', "AlbumsController@index");
 Route::resource('albums', "AlbumsController");
 Route::get('/users/index', "UsersController@index");
 Route::post('/users/changestatus', "UsersController@changeStatus");
-Route::get('/users/changestatus', "UsersController@changeStatus");
+Route::get('/users/edit', "UsersController@edit");
+Route::post('/users/changepassword', "UsersController@changePassword");
+Route::get('/users/{user}', "UsersController@show");
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+

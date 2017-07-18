@@ -17,7 +17,7 @@
         </div>
 
         <div class="col-md-4">
-            <img class="img-responsive" src="{{$album->url}}" alt="">
+            <img class="img-responsive" src="/storage/{{$album->cover}}" alt="">
 
         </div>
     </div>

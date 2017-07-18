@@ -33,9 +33,9 @@ class Album extends Model
         return $this->categories->pluck('id')->all();
     }
 
-    public function scopeLatest($query)
+    public function scopeLatest($query, int $qnt)
     {
-        return $query->orderBy('created_at', 'desc')->orderby('id','desc');
+        return $query->orderBy('created_at', 'desc')->orderby('id','desc')->paginate($qnt);
     }
 
     public function user()
