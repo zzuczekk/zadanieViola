@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'type', 'status',
+        'name', 'email', 'password', 'username', 'type', 'status','avatar',
     ];
 
     /**
@@ -30,5 +31,17 @@ class User extends Authenticatable
     public function albums()
     {
         return $this->hasMany(Album::class);
+    }
+
+    public function myAvatar()
+    {
+        if(Auth::user()->avatar==null)
+        {
+            return '/storage/avatars/default-avatar.png';
+        }
+        else
+        {
+            return "/storage/".Auth::user()->avatar;
+        }
     }
 }

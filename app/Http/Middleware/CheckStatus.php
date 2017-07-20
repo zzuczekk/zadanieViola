@@ -18,7 +18,7 @@ class CheckStatus
     {
         $response = $next($request);
         //If the status is not approved redirect to login
-        if(Auth::check() && Auth::user()['status']==0){
+        if(Auth::check() && Auth::user()['status']==false){
             Auth::logout();
             return redirect('/login')->with('erro_login', 'Twoje konto jest nieaktywne');
         }

@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder
             'email'=>'zzuczekk@hotmail.com',
             'password'=>bcrypt('qwerty'),
             'type'=>2,
-            'status'=>1
+            'status'=>true,
         ]);
     }
 }

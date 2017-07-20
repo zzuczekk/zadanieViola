@@ -10,6 +10,7 @@
             <th>Edycja</th>
             <th>Usuń</th>
         </tr>
+        @if(count($albums)>0)
         @foreach($albums as $album)
             <tr>
                 <td><a href="{{url('albums',$album->id)}}">{{$album->name}}</a></td>
@@ -23,6 +24,7 @@
                 </td>
             </tr>
         @endforeach
+        @endif
     </table>
     <div class="text-center">
         {{$albums->links()}}

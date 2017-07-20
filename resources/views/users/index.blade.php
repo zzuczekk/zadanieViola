@@ -1,64 +1,103 @@
 @extends('master')
 @section('content')
-    {!! Form::open() !!}
-    {!! Form::close()!!}</td>
-    <table class="table">
-        <tr>
-            <th>Nazwa użytkownika</th>
-            <th>Nazwa</th>
-            <th>Email</th>
-            <th>Typ</th>
-            <th>Status</th>
-            <th>Data utworzenia</th>
-            <th>Edytuj</th>
-        </tr>
-        @foreach($users as $user)
-            <tr>
-                <td><a href="{{ url('users',$user->id) }}">{{$user->username}}</a></td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td>
-                <td>
-                    @if($user->type==1)
+    <div id="root">
+        {!! Form::open() !!}
+        {!! Form::close()!!}
+        <ul class="nav nav-tabs">
+            <li class="active" v-on:click="allUsers"><a data-toggle="tab">Wszyscy</a></li>
+            <li v-on:click="activeUsers"><a data-toggle="tab">Aktywni</a></li>
+            <li v-on:click="inActiveUsers"><a data-toggle="tab">Nieaktywni</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <table class="table">
+                <tr>
+                    <th>Nazwa użytkownika</th>
+                    <th>Nazwa</th>
+                    <th>Email</th>
+                    <th>Typ</th>
+                    <th>Status</th>
+                    <th>Data utworzenia</th>
+                </tr>
+                <tr v-for="user in usersF">
+                    <td><a href="users/@{{ user.id }}">@{{user.username}}</a></td>
+                    <td>@{{user.name}}</td>
+                    <td>@{{user.email}}</td>
+                    <td v-if="user.type==1">
                         Użytkownik
-                    @elseif($user->type==2)
-                        Administrator
-                    @endif
-                </td>
-                <td>
-                    {!! Form::checkbox('status',$user->id, $user->status, ['class'=>'statusChB']) !!}
-                </td>
-                <td>{{$user->created_at}}</td>
-                <td><a class="btn btn-danger" href="{{url('users/edit')}}">Edytuj</a></td>
-            </tr>
-        @endforeach
-    </table>
+                    </td>
+                    <td v-else>
+                            Administrator
+                    </td>
+                    <td>
+                        <input v-model="user.status" v-on:change="chcangeStatus(user)" type="checkbox">
+                    </td>
+                    <td>@{{user.created_at}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
     <script>
-        $(function() {
-            $(".statusChB").change(function () {
-                var input=this;
-                var token = $("input[name='_token']").val();
-                var user=$(this).val();
-                $.ajax({
-                    url: '{!! url('users/changestatus') !!}',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {status:this.checked,_token:token, user_id:user}
-                })
-                    .done(function (response) {
-                        if(response==false)
+        new Vue(
+        {
+            el:"#root",
+            data:{
+                usersF:null,
+                users:null,
+            },
+            methods:
+                {
+                    chcangeStatus: function (user) {
+                        this.$http.put('/api/users',user).then(response=>{
+                            if(!response.body)
                         {
-                            input.checked=!input.checked;
-                            alert('Coś poszło nie tak');
+                            user.status=!user.status;
                         }
-                    })
-                    .fail(function(){
-                        input.checked=!input.checked;
-                        alert('Coś poszło nie tak');
-                    })
+
+                    },response=>{
+                            user.status=!user.status;
+                        });
+                    },
+                    allUsers: function ()
+                    {   this.usersF=this.users;
+                    },
+                    activeUsers: function ()
+                    {
+                        this.usersF=this.users.filter(function (user) {
+                            if(user.status==1)
+                            {
+                                return user;
+                            }
+                        });
+                        console.log(this.usersF);
+                    },
+                    inActiveUsers: function ()
+                    {
+                        this.usersF=this.users.filter(function (user) {
+                            if(user.status==0)
+                            {
+                                return user;
+                            }
+                        });
+                        console.log(this.usersF);
+                    }
+                },
+            mounted: function ()
+            {
+                this.$http.get('/api/users/').then(response=>{
+                    this.usersF = response.body;
+                    this.users= response.body;
+                console.log(this.usersF);
+
+            },response=>{
+                // error callback
             });
+            }
+
+
         });
     </script>
 @endsection

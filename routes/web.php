@@ -12,12 +12,14 @@
 */
 
 Route::get('/', "AlbumsController@index");
+Route::get('/artists', function(){return view('artists');})->middleware('isadmin');
 Route::resource('albums', "AlbumsController");
 Route::get('/users/index', "UsersController@index");
 Route::post('/users/changestatus', "UsersController@changeStatus");
 Route::get('/users/edit', "UsersController@edit");
 Route::post('/users/changepassword', "UsersController@changePassword");
-Route::get('/users/{user}', "UsersController@show");
+Route::post('/users/changeavatar', "UsersController@changeAvatar");
+Route::get('/users/', "UsersController@show");
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

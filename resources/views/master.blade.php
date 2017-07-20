@@ -17,6 +17,7 @@
     <!-- Custom CSS -->
     <link href="{{URL::asset('css/shop-item.css')}}" rel="stylesheet">
 
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -50,6 +51,7 @@
                 @if (!Auth::guest())
                     @if (Auth::user()->type==2)
                         <li><a href="{{url('users/index')}}">Użytkownicy</a></li>
+                        <li><a href="{{url('artists')}}">Artyści</a></li>
                     @endif
                 @endif
 
@@ -60,6 +62,9 @@
                     <li><a href="{{ url('login') }}">Logowanie</a></li>
                     <li><a href="{{ url('register') }}">Rejestracja</a></li>
                 @else
+                    <li>
+                        <img src="{{Auth::user()->myavatar()}}" class="img-responsive" style="height: 50px"/>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
@@ -113,11 +118,16 @@
 </div>
 <!-- /.container -->
 
+<!-- VUE -->
+<script src="{{URL::asset('js/vue.js')}}"></script>
+
 <!-- jQuery -->
 <script src="{{URL::asset('js/jquery.js')}}"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+<script src="{{URL::asset('js/vue-resource.js')}}"></script>
+<script src="{{URL::asset('js/min.js')}}"></script>
 @yield('scripts')
 
 </body>
