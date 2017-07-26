@@ -12,6 +12,13 @@
 */
 
 Route::get('/', "AlbumsController@index");
+Route::get('/test', "TestController@index");
+Route::get('/chat', "ChatController@index");
+Route::get('/chat/messages', 'ChatController@messages');
+Route::post('/messages/getuser', 'ConversationsController@getUser');
+Route::get('/messages/{id}', 'ConversationsController@index');
+Route::post('/messages', 'ConversationsController@sendMessage');
+Route::post('/chat', 'ChatController@store');
 Route::get('/artists', function(){return view('artists');})->middleware('isadmin');
 Route::resource('albums', "AlbumsController");
 Route::get('/users/index', "UsersController@index");

@@ -19,7 +19,7 @@ class CreateCategoryAlbumTable extends Migration
 
 
             $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
         });
     }

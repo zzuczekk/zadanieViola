@@ -55,24 +55,40 @@ class UsersController extends Controller
         $user->status=$request->get('status');
         return response()->json($user->save());
     }
-     public function edit()
-     {
-         return view('users.edit');
-     }
-
-    public function changePassword(ChangePasswordRequest $request)
+    public function edit()
     {
-        $user=Auth::user();
-        $user->password=bcrypt($request->get('newpassword'));
-        $user->save();
-        Session::flash('editUserMessage','Hasło zostało zmienione!');
-        return redirect('users/edit');
+        return view('users.edit');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'oldpassword'=>'required|chceckpassword',
+            'newpassword' => 'required|string|min:6|confirmed',
+        ],
+            [
+                'oldpassword.required'=>'Pole stare hasło jest wymagane',
+                'oldpassword.chceckpassword'=>'To nie jest twoje aktualne hasło',
+                'newpassword.required'=>'Pole nowe hasło jest wymagane',
+                'newpassword.min'=>'Nowe hasło musi mieć minimum 6 znaków',
+                'newpassword.confirmed'=>'Hasła nie są takie same'
+            ]);
+
+        if ($validator->fails()) {
+            return response()->json(($validator->errors()), 500);
+        }
+        else {
+            $user = Auth::user();
+            $user->password = bcrypt($request->get('newpassword'));
+            $user->save();
+            return response()->json(true);
+        }
     }
     public function changeAvatar(Request $request)
     {
         $validator = Validator::make($request->all(),[
-                'avatar' => 'required|mimes:jpeg,bmp,png'
-            ],
+            'avatar' => 'required|mimes:jpeg,bmp,png'
+        ],
             [
                 'avatar.required'=>'Nie wybrałes zdjęcia',
                 'avatar.mimes'=>'Zdęcie może być tylko typu jpeg, bmp lub png'
@@ -80,8 +96,7 @@ class UsersController extends Controller
             ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator);
+            return response()->json(($validator->errors()), 500);
         }
         else {
             if ($request->hasFile('avatar')) {

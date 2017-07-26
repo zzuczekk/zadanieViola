@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('artists', "ArtistsController");
 Route::get('/users', "UsersController@userList");
 Route::put('/users', "UsersController@update");
+
+Route::post('/test', "TestController@store");

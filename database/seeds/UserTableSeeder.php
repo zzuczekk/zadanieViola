@@ -21,5 +21,13 @@ class UserTableSeeder extends Seeder
             'type'=>2,
             'status'=>true,
         ]);
+        User::create([
+            'name'=>'Zuczek',
+            'username'=>'zuczek',
+            'email'=>'zuczek@zuk.com',
+            'password'=>bcrypt('qwerty'),
+            'type'=>1,
+            'status'=>true,
+        ]);
     }
 }

@@ -8,11 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Album - CRUD - Zuczek</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{URL::asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{URL::asset('css/app.css')}}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{{URL::asset('css/shop-item.css')}}" rel="stylesheet">
@@ -53,6 +54,7 @@
                         <li><a href="{{url('users/index')}}">Użytkownicy</a></li>
                         <li><a href="{{url('artists')}}">Artyści</a></li>
                     @endif
+                        <li><a href="{{url('chat')}}">Czat</a></li>
                 @endif
 
             </ul>
@@ -63,7 +65,7 @@
                     <li><a href="{{ url('register') }}">Rejestracja</a></li>
                 @else
                     <li>
-                        <img src="{{Auth::user()->myavatar()}}" class="img-responsive" style="height: 50px"/>
+                        <img src="{{Auth::user()->myavatar()}}" class="img-responsive" style="height: 50px; padding-top: 1px"/>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -119,15 +121,11 @@
 <!-- /.container -->
 
 <!-- VUE -->
-<script src="{{URL::asset('js/vue.js')}}"></script>
+<script src="{{URL::asset('js/app.js')}}"></script>
 
-<!-- jQuery -->
-<script src="{{URL::asset('js/jquery.js')}}"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
-<script src="{{URL::asset('js/vue-resource.js')}}"></script>
 <script src="{{URL::asset('js/min.js')}}"></script>
+
+
 @yield('scripts')
 
 </body>

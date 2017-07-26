@@ -44,4 +44,13 @@ class User extends Authenticatable
             return "/storage/".Auth::user()->avatar;
         }
     }
+    public function chat()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
 }
