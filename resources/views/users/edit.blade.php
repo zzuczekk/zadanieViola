@@ -29,10 +29,12 @@
                                         {!! Form::open(['action'=>'UsersController@changeAvatar','files'=>'true']) !!}
                                         <div class="text-center">
                                             {!! Form::label('avatar','Zmień avatar',['class'=>'btn btn-primary','for'=>'avatar'])!!}
-                                            {!! Form::file('avatar',['id'=>'avatar','accept'=>'image/*','style'=>'display:none', 'enctype'=>'multipart/form-data', 'v-on:change'=>'onFileChange'])!!}
+                                            {!! Form::file('avatar',['id'=>'avatar','accept'=>'image/*','style'=>'display:none', 'enctype'=>'multipart/form-data', 'v-on:change'=>'onImageChange'])!!}
                                             {!! Form::submit('Zapisz',['class'=>'btn btn-primary', 'v-on:click.prevent'=>'saveAvatar'])!!}
+                                            <br/>
+                                            <span class="help is-danger" v-text="avatarError"></span>
                                         </div>
-                                        <span class="help is-danger" v-text="formAvatar.errors.get('avatar')"></span>
+
                                         {!! Form::close() !!}
                                     </div>
                                 </tab>
@@ -117,19 +119,22 @@
         new Vue({
             el: '#root',
             data:{
-                formAvatar: new Form(['avatar']),
+                formAvatar: null,
                 formPassword: new Form(['oldpassword','newpassword','newpassword_confirmation']),
+                avatarError:null,
 
             },
             methods:
                 {
                     saveAvatar:function () {
-
-                        //formData.append('av', this.$els.fileinput.files[0]);
-                        //console.log(this.formAvatar.avatar.files[0]);
-                        //this.formAvatar.avatar=this.$els.avatar.files[0];
-                        console.log(this.formAvatar.avatar);
-                        this.formAvatar.post('/users/changeavatar');
+                        axios.post('/users/changeavatar',this.formAvatar)
+                            .then(response => {
+                                alert('Avatar został zmieniny');
+                                this.avatarError=null;
+                                console.log(response.data);
+                            }).catch(error=>{
+                                this.avatarError=error.response.data.avatar[0];
+                        });
                     },
                     changePassword: function () {
                         console.log('change');
@@ -139,18 +144,23 @@
                                 alert('Hasło zostało zmienione');
                                 this.formPassword.reset();
                             }).catch(error=>{
-                                this.formPassword.onFail(error);
-                                this.formPassword.reset();
-                                alert('dupa');
+                            this.formPassword.onFail(error);
+                            this.formPassword.reset();
+                            alert('dupa');
                         });
 
                     },
-                    onFileChange(e) {
-                        var files = e.target.files || e.dataTransfer.files;
-                        if (!files.length)
+                    onImageChange (ele) {
+                        let files = ele.target.files || ele.dataTransfer.files;
+
+                        if (!files.length) {
                             return;
-                        this.formAvatar.avatar=files[0];
-                        //this.createImage(files[0]);
+                        }
+
+                        this.formAvatar = new FormData();
+
+                        this.formAvatar.append('avatar', files[0]);
+
                     },
                     createImage(file) {
                         var image = new Image();

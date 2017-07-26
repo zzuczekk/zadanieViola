@@ -59,8 +59,6 @@ class Form {
 
         for (let field in this.originalData) {
             {
-
-                alert(this[field]);
                 this[field] = '';
             }
         }

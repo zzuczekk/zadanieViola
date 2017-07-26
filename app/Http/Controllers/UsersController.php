@@ -27,22 +27,9 @@ class UsersController extends Controller
     }
     public function userList()
     {
-        return User::all();
+        return response()->json(User::all());
     }
 
-    public function changeStatus(Request $request)
-    {
-        $user=User::findOrFail($request->get('user_id'));
-        if($request->get('status')==="true")
-        {
-            $user->status=1;
-        }elseif($request->get('status')==="false")
-        {
-            $user->status=0;
-        }
-        return json_encode($user->save());
-
-    }
     public function show(int $id)
     {
         $user=User::findOrFail($id);
@@ -52,8 +39,9 @@ class UsersController extends Controller
 
     public function update(Request $request)
     {   $user=User::find($request->get('id'));
-        $user->status=$request->get('status');
-        return response()->json($user->save());
+        $user->status=$request->get('status')===true?1:0;
+        $user->save();
+        return response()->json($user);
     }
     public function edit()
     {
@@ -105,12 +93,10 @@ class UsersController extends Controller
                 $user->avatar = Storage::putFile('avatars', $request->file('avatar'));
                 if ($user->save()) {
                     Storage::delete($oldAvatar);
-                    Session::flash('editUserMessage', 'Avatar został zmieniony!');
-                    return redirect('users/edit');
+                    return response()->json(true);
                 } else {
                     Storage::delete($user->avatar);
-                    Session::flash('editUserMessage', 'Coś poszło nie tak :(');
-                    return redirect('users/edit');
+                    return response()->json(false,500);
                 }
             }
         }

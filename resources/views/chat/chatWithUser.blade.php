@@ -41,6 +41,7 @@
                             .listen('MessagePosted',(e)=> {
                                 this.messages.push({
                                     text:e.message.text,
+                                    created_at:e.message.created_at,
                                     user:e.user
                                 });
                             });

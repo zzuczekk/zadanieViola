@@ -20,17 +20,17 @@
                     <th>Data utworzenia</th>
                 </tr>
                 <tr v-for="user in usersF">
-                    <td><a href="users/@{{ user.id }}">@{{user.username}}</a></td>
+                    <td><a :href="'/users/'+user.id" v-text="user.username"></a></td>
                     <td>@{{user.name}}</td>
                     <td>@{{user.email}}</td>
                     <td v-if="user.type==1">
                         Użytkownik
                     </td>
                     <td v-else>
-                            Administrator
+                        Administrator
                     </td>
                     <td>
-                        <input v-model="user.status" v-on:change="chcangeStatus(user)" type="checkbox">
+                        <input type="checkbox" v-model="user.status" v-on:change="chcangeStatus(user)" />
                     </td>
                     <td>@{{user.created_at}}</td>
                 </tr>
@@ -42,62 +42,67 @@
 @section('scripts')
     <script>
         new Vue(
-        {
-            el:"#root",
-            data:{
-                usersF:null,
-                users:null,
-            },
-            methods:
-                {
-                    chcangeStatus: function (user) {
-                        this.$http.put('/api/users',user).then(response=>{
-                            if(!response.body)
-                        {
-                            user.status=!user.status;
-                        }
-
-                    },response=>{
-                            user.status=!user.status;
-                        });
-                    },
-                    allUsers: function ()
-                    {   this.usersF=this.users;
-                    },
-                    activeUsers: function ()
-                    {
-                        this.usersF=this.users.filter(function (user) {
-                            if(user.status==1)
-                            {
-                                return user;
-                            }
-                        });
-                        console.log(this.usersF);
-                    },
-                    inActiveUsers: function ()
-                    {
-                        this.usersF=this.users.filter(function (user) {
-                            if(user.status==0)
-                            {
-                                return user;
-                            }
-                        });
-                        console.log(this.usersF);
-                    }
-                },
-            mounted: function ()
             {
-                this.$http.get('/api/users/').then(response=>{
-                    this.usersF = response.body;
-                    this.users= response.body;
-                console.log(this.usersF);
+                el:"#root",
+                data:{
+                    usersF:null,
+                    users:null,
+                },
+                methods:
+                    {
+                        chcangeStatus: function (user) {
+                            axios.put('/api/users',user)
+                                .then(response=>{
+                                    if(!response.data)
+                                    {
+                                        user.status=!user.status;
+                                    }
 
-            },response=>{
-                // error callback
+                                })
+                                .catch(error=>{
+                                    user.status=!user.status;
+                                });
+                        },
+                        allUsers: function ()
+                        {   this.usersF=this.users;
+                        },
+                        activeUsers: function ()
+                        {
+                            this.usersF=this.users.filter(function (user) {
+                                if(user.status==1)
+                                {
+                                    return user;
+                                }
+                            });
+                        },
+                        inActiveUsers: function ()
+                        {
+                            this.usersF=this.users.filter(function (user) {
+                                if(user.status==0)
+                                {
+                                    return user;
+                                }
+                            });
+                        }
+                    },
+                mounted: function ()
+                {
+                    axios.get('/api/users/')
+                        .then(response=>{
+                            this.users= response.data;
+                            this.users.forEach(function(u) {
+                                u.status == 1 ? u.status = true : u.status = false;
+                            });
+                            this.usersF = this.users;
+
+
+                        })
+                        .catch(error=>{
+                            // error callback
+                        });
+                }
+
+
             });
-            }
-
-
-        });
     </script>
 @endsection

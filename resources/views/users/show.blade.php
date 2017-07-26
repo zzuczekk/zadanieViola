@@ -1,6 +1,6 @@
 @extends('master')
 @section('content')
-    <h3>{{$user->name}}</h3>
+    <h3>{{$user->name}} <a class="btn btn-primary" href="/messages/{{$user->id}}"><span class="glyphicon glyphicon-send"></span> Czat</a></h3>
     <hr/>
 
     <h3>Dodane albumy</h3>

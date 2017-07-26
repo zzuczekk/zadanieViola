@@ -12,6 +12,7 @@
                     @endforeach
                 </ul>
             </div>
+            <div>Dodał: <a href="/users/{{$album->user->id}}">{{$album->user->name}}</a></div>
             <div>Premiera: {{$album->release_date}}</div>
             <p>Opis: {{$album->description}}</p>
         </div>

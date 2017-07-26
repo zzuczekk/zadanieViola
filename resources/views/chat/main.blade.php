@@ -1,7 +1,7 @@
 @extends('master')
 @section('content')
     <div id="root">
-        Ilość użytkowników: <span class="badge">@{{ usersInRoom.length }} </span>
+        Czat ogólny | Ilość użytkowników: <span class="badge">@{{ usersInRoom.length }} </span>
         <chat-log :messages="messages"></chat-log>
         <chat-composer v-on:messagesent="addMessage"></chat-composer>
     </div>
@@ -49,6 +49,7 @@
                         .listen('ChatMessagePosted',(e)=> {
                             this.messages.push({
                                 text:e.chat.text,
+                                created_at:e.chat.created_at,
                                 user:e.user
                             });
                         });

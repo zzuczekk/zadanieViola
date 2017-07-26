@@ -45,36 +45,42 @@
                 {
                     if(confirm('Na pewno chcesz usunąć?'))
                     {
-                        this.$http.delete('/api/artists/'+artist.id).then(response=>{
+                        axios.delete('/api/artists/'+artist.id)
+                            .then(response=>{
                                 let idx = this.artists.indexOf(artist);
                                 this.artists.splice(idx,1);
 
-                            },response=>{
-                                // error callback
-                            }
-                        );
+                            })
+                            .catch(error=>{
+                                    // error callback
+                                }
+                            );
                     }
                 },
                 addArtist: function(name)
                 {
-                    this.$http.post('/api/artists',{'name':name}).then(response=>{
-                        this.bledy=null;
-                        this.artists.push(response.body)
-                        this.name=null;
+                    axios.post('/api/artists',{'name':name})
+                        .then(response=>{
+                            this.bledy=null;
+                            this.artists.push(response.data)
+                            this.name=null;
 
-                    },response=>{
-                        this.bledy=response.body;
-                    });
+                        })
+                        .catch(error=>{
+                            this.bledy=response.body;
+                        });
                 }
             },
             mounted: function ()
             {
-                this.$http.get('/api/artists').then(response=>{
-                    this.artists = response.body;
+                axios.get('/api/artists').
+                then(response=>{
+                    this.artists = response.data;
 
-                },response=>{
-                    // error callback
-                });
+                })
+                    .catch(error=>{
+                        // error callback
+                    });
             }
 
         });
