@@ -137,16 +137,14 @@
                         });
                     },
                     changePassword: function () {
-                        console.log('change');
                         this.formPassword.post('/users/changepassword')
                             .then(response => {
                                 this.formPassword.onSuccess(response.data);
                                 alert('Hasło zostało zmienione');
                                 this.formPassword.reset();
                             }).catch(error=>{
+                                console.log(error);
                             this.formPassword.onFail(error);
-                            this.formPassword.reset();
-                            alert('dupa');
                         });
 
                     },
