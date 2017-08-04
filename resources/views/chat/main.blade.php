@@ -1,7 +1,7 @@
 @extends('master')
 @section('content')
     <div id="root">
-        Czat ogólny | Ilość użytkowników: <span class="badge">@{{ usersInRoom.length }} </span>
+        Czat ogólny  |  Ilość użytkowników: <span class="badge">@{{ usersInRoom.length }} </span>
         <chat-log :messages="messages"></chat-log>
         <chat-composer v-on:messagesent="addMessage"></chat-composer>
     </div>
